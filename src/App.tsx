@@ -10,7 +10,7 @@ import { VTBApiContext } from './VTBApiContext'
 function App() {
 
   const {setApi} = useContext(VTBApiContext)
-  
+
   useEffect(() => {
     const wsProvider = new WsProvider('wss://substratenode.vtbtestnet.com/explorer')
     ApiPromise.create({ provider: wsProvider }).then((api: ApiPromise) => {
@@ -20,7 +20,7 @@ function App() {
 
   return (
    <div>
-    <h5 style={{position: "absolute", right: 10, top:10}}>using BrowserRouter</h5>
+    <h5 style={{position: "absolute", right: 10, top:10}}>using HashRouter</h5>
     <Routes>
       <Route path="/" element={<VtbcPrice />} />
       <Route path="/about" element={<About />} />
