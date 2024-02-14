@@ -1,28 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
-
+import { VtbcPrice } from './VtbPrice'
+import { About } from './About'
+import { useContext, useEffect } from 'react'
 import { ApiPromise, WsProvider } from '@polkadot/api'
+import { VTBApiContext } from './VTBApiContext'
 
 function App() {
 
-  const [price, setPrice] = useState<string>("");
-
+  const {setApi} = useContext(VTBApiContext)
+  
   useEffect(() => {
     const wsProvider = new WsProvider('wss://substratenode.vtbtestnet.com/explorer')
-    ApiPromise.create({ provider: wsProvider }).then((api: any) => {
-      api.query.vtbCurrency.vtbcPrice((price: any) => {
-        setPrice(price.toHuman())
-      })
+    ApiPromise.create({ provider: wsProvider }).then((api: ApiPromise) => {
+      setApi(api)
     })
-  },[])
-  
+  }, [])
+
   return (
-    <>
-      <div>
-        VTBC Price : {price}
-      </div>
-    </>
+   <div>
+    <h5 style={{position: "absolute", right: 10, top:10}}>using BrowserRouter</h5>
+    <Routes>
+      <Route path="/" element={<VtbcPrice />} />
+      <Route path="/about" element={<About />} />
+    </Routes>
+   </div>
   )
 }
 
